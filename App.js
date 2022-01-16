@@ -9,6 +9,9 @@ import Home from "./screens/Home";
 import Items from "./screens/Items";
 import Groceries, { ModalGroceryUpdate } from "./screens/Groceries";
 
+import { Provider } from "mobx-react";
+import { itemsStore } from "./stores/ItemsStore";
+
 const BottomTab = createBottomTabNavigator();
 function BottomTabNavigator() {
   return (
@@ -91,7 +94,7 @@ function BottomTabNavigator() {
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
-    <>
+    <Provider itemsStore={itemsStore}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -118,6 +121,6 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />
-    </>
+    </Provider>
   );
 }
