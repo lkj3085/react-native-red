@@ -11,7 +11,13 @@ import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { styles } from "../styles/styles";
 
-function Items() {
+import { inject, observer } from "mobx-react";
+
+function Items(props) {
+  console.log(props);
+  const { itemsStore } = props;
+  const { item } = itemsStore;
+
   return (
     <>
       <View name="form" style={styles.form}>
@@ -19,8 +25,17 @@ function Items() {
           style={[styles.borderStyle, styles.flex1]}
           type="number"
           placeholder="Create"
+          value={item.name}
+          onChangeText={(text) => {
+            item.name = text;
+          }}
         />
-        <Pressable onPress={() => {}} style={styles.flexCenter}>
+        <Pressable
+          onPress={() => {
+            itemsStore.itemsCreate();
+          }}
+          style={styles.flexCenter}
+        >
           <FontAwesome
             name="pencil"
             size={24}
@@ -237,4 +252,4 @@ function Items() {
   );
 }
 
-export default Items;
+export default inject("itemsStore")(observer(Items));
