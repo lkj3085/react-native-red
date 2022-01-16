@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Text,
   TextInput,
@@ -16,7 +16,11 @@ import { inject, observer } from "mobx-react";
 function Items(props) {
   console.log(props);
   const { itemsStore } = props;
-  const { item } = itemsStore;
+  const { items, item } = itemsStore;
+
+  useEffect(() => {
+    itemsStore.itemsRead();
+  }, [itemsStore]);
 
   return (
     <>
@@ -131,122 +135,45 @@ function Items(props) {
         </View>
       </View>
       <ScrollView name="tbody" style={styles.tbody}>
-        <View name="tr" style={styles.rows}>
-          <BouncyCheckbox
-            style={[styles.flex1]}
-            fillColor="#4285F4"
-            onPress={() => {}}
-          />
-          <Text style={[styles.flex2, styles.textAlignCenter]}>사과</Text>
-          <Text style={[styles.flex3, styles.textAlignCenter]}>2022-01-01</Text>
-          <TextInput
-            style={[styles.flex3, styles.textAlignCenter, styles.borderStyle]}
-            placeholder="Expire"
-            value="2022-01-15"
-          />
-          <Pressable
-            onPress={() => {
-              Alert.alert("Delete member", "삭제 하시겠습니까?", [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel",
-                },
-                { text: "OK", onPress: () => console.log("OK Pressed") },
-              ]);
-            }}
-            style={[styles.flex1, styles.flexCenter]}
-          >
-            <FontAwesome name="trash" size={24} style={{ color: "#EA4335" }} />
-          </Pressable>
-        </View>
-        <View name="tr" style={styles.rows}>
-          <BouncyCheckbox
-            style={[styles.flex1, styles.textAlignCenter]}
-            fillColor="#4285F4"
-            onPress={() => {}}
-          />
-          <Text style={[styles.flex2, styles.textAlignCenter]}>바나나</Text>
-          <Text style={[styles.flex3, styles.textAlignCenter]}>2022-01-01</Text>
-          <TextInput
-            style={[styles.flex3, styles.textAlignCenter, styles.borderStyle]}
-            placeholder="Expire"
-            value="2022-01-15"
-          />
-          <Pressable
-            onPress={() => {
-              Alert.alert("Delete member", "삭제 하시겠습니까?", [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel",
-                },
-                { text: "OK", onPress: () => console.log("OK Pressed") },
-              ]);
-            }}
-            style={[styles.flex1, styles.flexCenter]}
-          >
-            <FontAwesome name="trash" size={24} style={{ color: "#EA4335" }} />
-          </Pressable>
-        </View>
-        <View name="tr" style={styles.rows}>
-          <BouncyCheckbox
-            style={[styles.flex1]}
-            fillColor="#4285F4"
-            onPress={() => {}}
-          />
-          <Text style={[styles.flex2, styles.textAlignCenter]}>딸기</Text>
-          <Text style={[styles.flex3, styles.textAlignCenter]}>2022-01-01</Text>
-          <TextInput
-            style={[styles.flex3, styles.textAlignCenter, styles.borderStyle]}
-            placeholder="Expire"
-            value="2022-01-15"
-          />
-          <Pressable
-            onPress={() => {
-              Alert.alert("Delete member", "삭제 하시겠습니까?", [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel",
-                },
-                { text: "OK", onPress: () => console.log("OK Pressed") },
-              ]);
-            }}
-            style={[styles.flex1, styles.flexCenter]}
-          >
-            <FontAwesome name="trash" size={24} style={{ color: "#EA4335" }} />
-          </Pressable>
-        </View>
-        <View name="tr" style={styles.rows}>
-          <BouncyCheckbox
-            style={[styles.flex1]}
-            fillColor="#4285F4"
-            onPress={() => {}}
-          />
-          <Text style={[styles.flex2, styles.textAlignCenter]}>키위</Text>
-          <Text style={[styles.flex3, styles.textAlignCenter]}>2022-01-01</Text>
-          <TextInput
-            style={[styles.flex3, styles.textAlignCenter, styles.borderStyle]}
-            placeholder="Expire"
-            value="2022-01-15"
-          />
-          <Pressable
-            onPress={() => {
-              Alert.alert("Delete member", "삭제 하시겠습니까?", [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel",
-                },
-                { text: "OK", onPress: () => console.log("OK Pressed") },
-              ]);
-            }}
-            style={[styles.flex1, styles.flexCenter]}
-          >
-            <FontAwesome name="trash" size={24} style={{ color: "#EA4335" }} />
-          </Pressable>
-        </View>
+        {items.map((item, index) => (
+          <View key={index} name="tr" style={styles.rows}>
+            <BouncyCheckbox
+              style={[styles.flex1]}
+              fillColor="#4285F4"
+              onPress={() => {}}
+            />
+            <Text style={[styles.flex2, styles.textAlignCenter]}>
+              {item.name}
+            </Text>
+            <Text style={[styles.flex3, styles.textAlignCenter]}>
+              {item.enter}
+            </Text>
+            <TextInput
+              style={[styles.flex3, styles.textAlignCenter, styles.borderStyle]}
+              placeholder="Expire"
+              value={item.expire}
+            />
+            <Pressable
+              onPress={() => {
+                Alert.alert("Delete member", "삭제 하시겠습니까?", [
+                  {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel",
+                  },
+                  { text: "OK", onPress: () => console.log("OK Pressed") },
+                ]);
+              }}
+              style={[styles.flex1, styles.flexCenter]}
+            >
+              <FontAwesome
+                name="trash"
+                size={24}
+                style={{ color: "#EA4335" }}
+              />
+            </Pressable>
+          </View>
+        ))}
       </ScrollView>
     </>
   );
